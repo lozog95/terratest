@@ -9,8 +9,8 @@ import (
 	"time"
 
 	"github.com/gruntwork-io/terratest/modules/retry"
+	"github.com/hashicorp/go-multierror"
 
-	"github.com/gruntwork-io/terratest/modules/customerrors"
 	"github.com/gruntwork-io/terratest/modules/logger"
 	"github.com/gruntwork-io/terratest/modules/shell"
 	"github.com/gruntwork-io/terratest/modules/testing"
@@ -55,7 +55,7 @@ func BuildArtifactsE(t testing.TestingT, artifactNameToOptions map[string]*Optio
 	waitForArtifacts.Add(len(artifactNameToOptions))
 
 	var artifactNameToArtifactId = map[string]string{}
-	errorsOccurred := []error{}
+	errorsOccurred := &multierror.Error{}
 
 	for artifactName, curOptions := range artifactNameToOptions {
 		// The following is necessary to make sure artifactName and curOptions don't
@@ -67,7 +67,7 @@ func BuildArtifactsE(t testing.TestingT, artifactNameToOptions map[string]*Optio
 			artifactId, err := BuildArtifactE(t, curOptions)
 
 			if err != nil {
-				errorsOccurred = append(errorsOccurred, err)
+				errorsOccurred = multierror.Append(errorsOccurred, err)
 			} else {
 				artifactNameToArtifactId[artifactName] = artifactId
 			}
@@ -76,7 +76,7 @@ func BuildArtifactsE(t testing.TestingT, artifactNameToOptions map[string]*Optio
 
 	waitForArtifacts.Wait()
 
-	return artifactNameToArtifactId, customerrors.NewMultiError(errorsOccurred...)
+	return artifactNameToArtifactId, errorsOccurred
 }
 
 // BuildArtifact builds the given Packer template and return the generated Artifact ID.
