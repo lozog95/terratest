@@ -182,7 +182,7 @@ func ScpDirFromE(t testing.TestingT, options ScpDownloadOptions, useSudo bool) e
 		errorsOccurred = multierror.Append(errorsOccurred, err)
 	}
 
-	return errorsOccurred
+	return errorsOccurred.ErrorOrNil()
 }
 
 // CheckSshConnection checks that you can connect via SSH to the given host and fail the test if the connection fails.
