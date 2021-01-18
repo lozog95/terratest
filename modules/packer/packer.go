@@ -55,7 +55,7 @@ func BuildArtifactsE(t testing.TestingT, artifactNameToOptions map[string]*Optio
 	waitForArtifacts.Add(len(artifactNameToOptions))
 
 	var artifactNameToArtifactId = map[string]string{}
-	errorsOccurred := &multierror.Error{}
+	var errorsOccurred = new(multierror.Error)
 
 	for artifactName, curOptions := range artifactNameToOptions {
 		// The following is necessary to make sure artifactName and curOptions don't
