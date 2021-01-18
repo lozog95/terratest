@@ -76,7 +76,7 @@ func BuildArtifactsE(t testing.TestingT, artifactNameToOptions map[string]*Optio
 
 	waitForArtifacts.Wait()
 
-	return artifactNameToArtifactId, errorsOccurred
+	return artifactNameToArtifactId, errorsOccurred.ErrorOrNil()
 }
 
 // BuildArtifact builds the given Packer template and return the generated Artifact ID.
