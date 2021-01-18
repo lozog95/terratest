@@ -212,7 +212,7 @@ func FetchFilesFromAsgs(t testing.TestingT, awsRegion string, spec RemoteFileSpe
 // remoteDirectory (using sudo if useSudo is true), and stores the files locally at
 // localDirectory/<publicip>/<remoteFolderName>
 func FetchFilesFromAsgsE(t testing.TestingT, awsRegion string, spec RemoteFileSpecification) error {
-	errorsOccurred := &multierror.Error{}
+	var errorsOccurred = new(multierror.Error)
 
 	for _, curAsg := range spec.AsgNames {
 		for curRemoteDir, fileFilters := range spec.RemotePathToFileFilter {
