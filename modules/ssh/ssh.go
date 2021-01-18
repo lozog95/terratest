@@ -164,7 +164,7 @@ func ScpDirFromE(t testing.TestingT, options ScpDownloadOptions, useSudo bool) e
 		}
 	}
 
-	errorsOccurred := &multierror.Error{}
+	var errorsOccurred = new(multierror.Error)
 
 	for _, fullRemoteFilePath := range filesInDir {
 		fileName := filepath.Base(fullRemoteFilePath)
