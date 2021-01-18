@@ -231,5 +231,5 @@ func FetchFilesFromAsgsE(t testing.TestingT, awsRegion string, spec RemoteFileSp
 			}
 		}
 	}
-	return errorsOccurred
+	return errorsOccurred.ErrorOrNil()
 }
