@@ -6,6 +6,7 @@ terraform.tfvars
 .terragrunt
 .terragrunt-cache
 
+
 # IDE files
 .idea
 .vscode
